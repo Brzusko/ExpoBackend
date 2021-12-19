@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
-const { Schema, Model } = mongoose;
+const { Schema, model } = mongoose;
 
 const account = new Schema({
-    _id: Schema.Types.ObjectId,
     name: {
         type: String,
         required: true,
@@ -17,13 +16,15 @@ const account = new Schema({
     },
     power: {
         type: Number,
-        required: true,
-        min: 0,
-        max: 2
     }
 });
 
-const accountModel = new Model('Account', account);
+account.pre('save', function(next) {
+    this.power = 0;
+    next();
+});
+
+const accountModel = new model('Account', account);
 
 module.exports = accountModel;
 
