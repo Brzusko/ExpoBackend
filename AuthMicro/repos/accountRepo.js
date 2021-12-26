@@ -10,7 +10,7 @@ class AccountRepo
     async Create(userName, pinCode)
     {
         const account = await accountModel.findOne().where('name').equals(userName);
-        if(account != null) return false;
+        if(account != null) throw new Error('Cannot create account with these credentials');
 
         const newAccount = new accountModel (
             {
@@ -18,29 +18,27 @@ class AccountRepo
                 pinCode,
             }
         );
-
-        const result = await newAccount.save();
-        return result != null;
+        return newAccount;
     }
 
-    async UpdateByUserName(oldUserName, newUserName, pinCode, power)
+    async UpdateByUserName(userName, update)
     {
-        return accountModel.findOneAndUpdate({ name: oldUserName }, { name: newUserName, pinCode, power});
+        return accountModel.findOneAndUpdate({ name: userName }, update);
     }
 
-    async GetByName()
+    async GetByName(userName)
     {
-
-    }
-
-    async GetByToken()
-    {
-
+        return accountModel.findOne().where('name').equals(userName);
     }
 
     async Delete(userName)
     {
+        // todo
+    }
 
+    async Save(account)
+    {
+        await account.save();
     }
 }
 
