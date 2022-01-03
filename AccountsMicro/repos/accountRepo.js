@@ -23,22 +23,17 @@ class AccountRepo
 
     async UpdateByUserName(userName, update)
     {
-        return accountModel.findOneAndUpdate({ name: oldUserName }, { name: newUserName, pinCode, power});
+        return accountModel.findOneAndUpdate({ name: userName }, update);
     }
 
-    async GetByName()
+    async GetByName(userName)
     {
-
-    }
-
-    async GetByToken()
-    {
-
+        return accountModel.findOne().where('name').equals(userName);
     }
 
     async Delete(userName)
     {
-
+        await accountModel.findByIdAndDelete().where('name').equals(userName);
     }
 
     async Save(account)

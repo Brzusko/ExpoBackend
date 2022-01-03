@@ -8,5 +8,6 @@ router.get('/', (req, res) =>{
 
 router.post('/loginCred', authController.loginWithCredentials);
 router.post('/loginRef', authController.loginWithRefreshToken);
+router.post('/logout', authController.logout);
 
 module.exports = router;

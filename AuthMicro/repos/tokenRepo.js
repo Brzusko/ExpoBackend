@@ -32,7 +32,7 @@ class TokenRepo
         const token = await jwt.sign({
             name: accountRef.name,
             _id: accountRef._id,
-            pinCode: accountRef.pinCode
+            power: accountRef.power,
         }, process.env.PASS_SECRET);
         const tokenDB = new tokenModel({
             token,
@@ -43,14 +43,20 @@ class TokenRepo
         return token;
     }
 
-    async ReplaceAccessToken(refreshToken)
-    {
-
-    }
-
     async FindByAccountIdAndDestroy(accountID)
     {
-        await tokenModel.find().where('account').equals(accountID).deleteMany();
+        await this.DeleteAccessToken(accountID);
+        await this.DeleteAccessToken(accountID);
+    }
+
+    async DeleteAccessToken(accountID)
+    {
+        await tokenModel.find().where('account').equals(accountID).where('type').equals('access').deleteMany();
+    }
+
+    async DeleteRefreshToken(accountID)
+    {
+        await tokenModel.find().where('account').equals(accountID).where('type').equals('refresh').deleteMany();
     }
 
     async Save(token)

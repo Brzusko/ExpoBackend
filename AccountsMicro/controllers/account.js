@@ -66,6 +66,22 @@ const registerNewAccount = async function(req, res)
 
 }
 
+const updateAccount = async function(req, res)
+{
+
+}
+
+const deleteAccount = async function(req, res)
+{
+
+}
+
+const getAccountDetails = async function (req, res)
+{
+    res.send('D');
+}
+
 module.exports = {
     registerNewAccount,
+    getAccountDetails
 }

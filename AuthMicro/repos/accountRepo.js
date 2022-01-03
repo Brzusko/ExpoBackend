@@ -33,7 +33,7 @@ class AccountRepo
 
     async Delete(userName)
     {
-        // todo
+        await accountModel.findByIdAndDelete().where('name').equals(userName);
     }
 
     async Save(account)

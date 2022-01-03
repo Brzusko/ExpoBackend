@@ -3,6 +3,7 @@ const errors = {
     1: 'Database Error',
     2: 'Missing credentials',
     3: 'Wrong username or pin code',
+    4: 'Token is not valid'
 }
 
 const tokenType = {
