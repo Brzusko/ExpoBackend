@@ -1,4 +1,4 @@
-const positionModel = require('../schemas/position');
+const positionModel = require('../Schemas/position');
 
 class PositionRepo
 {

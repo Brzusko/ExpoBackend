@@ -1,4 +1,4 @@
-const visualModel = require('../schemas/visuals');
+const visualModel = require('../Schemas/visuals');
 
 const sexMap = {
     0: 'Male',

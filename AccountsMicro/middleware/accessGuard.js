@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { errors } = require('../enums');
+const { errors } = require('../../Shared/enums');
 
 const accessGuard = function(...acceptedRoles)
 {

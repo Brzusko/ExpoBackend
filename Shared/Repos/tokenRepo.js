@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const tokenModel = require('../schemas/token');
-const { tokenType } = require('../enums');
+const tokenModel = require('../Schemas/token');
+const { tokenType } = require('../../AuthMicro/enums');
 
 const accessTokenLast = '1h';
 

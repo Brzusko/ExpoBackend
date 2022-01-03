@@ -1,4 +1,4 @@
-const accountModel = require('../schemas/account');
+const accountModel = require('../Schemas/account');
 
 class AccountRepo
 {

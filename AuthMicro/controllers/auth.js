@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const AccRepo = require('../repos/accountRepo');
-const TokenRepo = require('../repos/tokenRepo');
+const AccRepo = require('../../Shared/Repos/accountRepo');
+const TokenRepo = require('../../Shared/Repos/tokenRepo');
 const { errors } = require('../enums');
 
 const returnMissingCredentialsError = (res) => {

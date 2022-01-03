@@ -1,8 +1,8 @@
-const AccountRepo = require('../repos/accountRepo');
-const PositionRepo = require('../repos/positionRepo');
-const VisualRepo = require('../repos/visualRepos');
-const bodyChecker = require('../utils/bodyArgumentChecker');
-const { errors } = require('../enums');
+const AccountRepo = require('../../Shared/Repos/accountRepo');
+const PositionRepo = require('../../Shared/Repos/positionRepo');
+const VisualRepo = require('../../Shared/Repos/visualRepos');
+const bodyChecker = require('../../Shared/Utils/bodyArgumentChecker');
+const { errors } = require('../../Shared/enums');
 const accRepo = new AccountRepo();
 const posRepo = new PositionRepo();
 const visRepo = new VisualRepo();
@@ -78,7 +78,7 @@ const deleteAccount = async function(req, res)
 
 const getAccountDetails = async function (req, res)
 {
-    res.send('D');
+
 }
 
 module.exports = {
