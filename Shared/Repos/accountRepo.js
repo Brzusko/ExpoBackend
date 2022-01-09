@@ -1,4 +1,5 @@
 const accountModel = require('../Schemas/account');
+const randInt = require('../../Shared/Utils/randomInt');
 
 class AccountRepo
 {
@@ -7,7 +8,7 @@ class AccountRepo
 
     }
 
-    async Create(userName, pinCode)
+    async Create(userName)
     {
         const account = await accountModel.findOne().where('name').equals(userName);
         if(account != null) throw new Error('Cannot create account with these credentials');
@@ -15,7 +16,7 @@ class AccountRepo
         const newAccount = new accountModel (
             {
                 name: userName,
-                pinCode,
+                pinCode: randInt(1000, 9999),
             }
         );
         return newAccount;

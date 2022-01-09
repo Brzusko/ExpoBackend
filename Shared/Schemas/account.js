@@ -6,7 +6,7 @@ const account = new Schema({
         type: String,
         required: true,
         minlength: [3, 'Username is to short.'],
-        maxlength: [30, 'Username is to long']
+        maxlength: [20, 'Username is to long']
     },
     pinCode: {
         type: Number,

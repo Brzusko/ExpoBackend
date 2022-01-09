@@ -3,14 +3,13 @@ const PositionRepo = require('../../Shared/Repos/positionRepo');
 const VisualRepo = require('../../Shared/Repos/visualRepos');
 const bodyChecker = require('../../Shared/Utils/bodyArgumentChecker');
 const { errors } = require('../../Shared/enums');
+const { returnDBError, returnRegisterSuccess } = require('../../Shared/Utils/sendResponses');
 const accRepo = new AccountRepo();
 const posRepo = new PositionRepo();
 const visRepo = new VisualRepo();
 
 const accCreationArgs = {
     name: '',
-    pinCode: 0,
-    sex: 0,
 }
 
 const registerNewAccount = async function(req, res)
@@ -35,9 +34,9 @@ const registerNewAccount = async function(req, res)
 
     try
     {
-        acc = await accRepo.Create(req.body.name, req.body.pinCode);
+        acc = await accRepo.Create(req.body.name);
         pos = await posRepo.Create(acc);
-        vis = await visRepo.Create(acc, req.body.sex);
+        vis = await visRepo.Create(acc, 0);
     }
     catch (dbErrObj)
     {
@@ -46,12 +45,7 @@ const registerNewAccount = async function(req, res)
 
     if(dbErr != null)
     {
-        const errMessage = errors['1'];
-        res.send({
-            errorCode: 1,
-            errMessage,
-            db: dbErr
-        })
+        returnDBError(res);
         return;
     }
 
@@ -59,10 +53,7 @@ const registerNewAccount = async function(req, res)
     await posRepo.Save(pos);
     await visRepo.Save(vis);
 
-    res.send({
-        errorCode: -1,
-        errMessage: 'Successfully created Account',
-    });
+    returnRegisterSuccess(res, 'Successfully created account, now you can log in.', acc);
 
 }
 
