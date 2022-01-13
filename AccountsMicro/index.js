@@ -6,7 +6,11 @@ const app = express();
 const accountRoute = require('./routes/account');
 const uri = process.env.DB_ADDRESS;
 
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(bodyParser.json({
+    type: '*/*'
+}));
 app.use('/accounts', accountRoute);
 
 app.listen(process.env.PORT || 3030, () => {
