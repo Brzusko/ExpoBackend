@@ -5,7 +5,11 @@ const mongoose = require("mongoose");
 const authRoute = require('./routes/login');
 const app = express();
 
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(bodyParser.json({
+    type: '*/*'
+}));
 app.use('/auth', authRoute);
 
 app.listen(process.env.PORT, () => {

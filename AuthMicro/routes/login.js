@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/auth');
 
-router.get('/', (req, res) =>{
+router.get('/', (req, res) => {
+   console.log('Incoming request');
    res.send('Auth Server');
 });
 

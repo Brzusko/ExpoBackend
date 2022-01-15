@@ -1,67 +1,35 @@
 const jwt = require('jsonwebtoken');
 const AccRepo = require('../../Shared/Repos/accountRepo');
 const TokenRepo = require('../../Shared/Repos/tokenRepo');
-const { errors } = require('../enums');
-
-const returnMissingCredentialsError = (res) => {
-    const errorMessage = errors[2];
-    res.status(200);
-    res.send({
-        errorCode: 2,
-        errorMessage,
-    });
-}
-
-const returnNotValidToken = (res) => {
-    res.status(200);
-    res.send({
-        errorCode: 4,
-        errorMessage: errors[4],
-    })
-}
-
-const returnSuccess = (res, message, data = undefined) => {
-    res.status(200);
-    res.send({
-        errorCode: -1,
-        errorMessage: message,
-        data,
-    });
-}
+const { returnMissingCredentialsError, returnAuthSuccess, returnSuccess, returnAuthFailure, returnNotValidToken } = require('../../Shared/Utils/sendResponses');
 
 const login = async (res, user, fromRefToken) => {
     const tokenRepo = new TokenRepo();
     const accessToken = await tokenRepo.CreateAccessToken(user);
     let refreshToken;
     if(!fromRefToken) refreshToken = await tokenRepo.CreateRefreshToken(user);
-    returnSuccess(res, 'Successfully logged in', {accessToken, refreshToken});
+    returnAuthSuccess(res, 'Successfully logged in', accessToken, refreshToken);
 }
 
 const loginWithCredentials = async (req, res) => {
-    const { credentials } = req.body;
-    if(!credentials)
+    const { name, pinCode } = req.body;
+    if(!name || !pinCode)
     {
         returnMissingCredentialsError(res);
         return;
     }
 
     const accRepo = new AccRepo();
-    const user = await accRepo.GetByName(credentials.name);
-    if(!user || user.pinCode !== credentials.pinCode )
+    const user = await accRepo.GetByName(name);
+    if(!user || user.pinCode !== pinCode )
     {
-        const errorMessage = errors[3];
-        res.status(200);
-        res.send({
-           errorCode: 3,
-           errorMessage
-        });
+        returnAuthFailure(res);
         return;
     }
     await login(res, user, false);
 };
 
 const loginWithRefreshToken = async (req, res) => {
-    res.status(200);
     if(!req.body.token)
     {
         returnMissingCredentialsError(res);
@@ -102,7 +70,9 @@ const logout = async (req, res) => {
         returnNotValidToken(res);
         return;
     }
-    await tokenRepo.DeleteAccessToken(tokenVerify._id);
+    const id = tokenVerify._id;
+    await tokenRepo.DeleteAccessToken(id);
+    await tokenRepo.DeleteRefreshToken(id);
     returnSuccess(res, 'Successfully logged out');
 };
 

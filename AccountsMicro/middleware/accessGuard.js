@@ -1,11 +1,15 @@
 const jwt = require('jsonwebtoken');
-const { errors } = require('../../Shared/enums');
+const { returnAccessDenied } = require('../../Shared/Utils/sendResponses');
 
 const accessGuard = function(...acceptedRoles)
 {
     return async function(req, res, next)
     {
-        if(!req.body.token) return res.sendStatus(401);
+        if(!req.body.token)
+        {
+            returnAccessDenied(res);
+            return;
+        }
         let tokenVerify;
         try
         {
@@ -13,11 +17,16 @@ const accessGuard = function(...acceptedRoles)
         }
         catch (err)
         {
-            return res.sendStatus(401);
+            returnAccessDenied(res);
+            return;
         }
         const roles = [...acceptedRoles];
         const roleMatch = roles.find(role => role === tokenVerify.power) === 0;
-        if(!roleMatch) return res.sendStatus(401);
+        if(!roleMatch)
+        {
+            returnAccessDenied(res);
+            return;
+        }
         next();
     }
 }

@@ -4,6 +4,7 @@ const errors = {
     2: 'Missing credentials',
     3: 'Wrong username or pin code',
     4: 'Token is not valid',
+    5: 'Access denied'
 }
 
 const tokenType = {
