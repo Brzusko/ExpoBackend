@@ -70,7 +70,9 @@ const logout = async (req, res) => {
         returnNotValidToken(res);
         return;
     }
-    await tokenRepo.DeleteAccessToken(tokenVerify._id);
+    const id = tokenVerify._id;
+    await tokenRepo.DeleteAccessToken(id);
+    await tokenRepo.DeleteRefreshToken(id);
     returnSuccess(res, 'Successfully logged out');
 };
 

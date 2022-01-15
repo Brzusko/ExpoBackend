@@ -15,9 +15,9 @@ const accCreationArgs = {
 const registerNewAccount = async function(req, res)
 {
     const err = bodyChecker(req.body, accCreationArgs);
-
     if(err.length > 0)
     {
+        res.status(201);
         const errMessage = errors['0'];
         res.send({
             errorCode: 0,
@@ -48,7 +48,7 @@ const registerNewAccount = async function(req, res)
         returnDBError(res);
         return;
     }
-
+    console.log(dbErr);
     await accRepo.Save(acc);
     await posRepo.Save(pos);
     await visRepo.Save(vis);
